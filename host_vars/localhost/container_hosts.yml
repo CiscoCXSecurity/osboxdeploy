@@ -1,0 +1,7 @@
+container_hosts:
+  - name: "<HOSTNAME>1"
+    image: "UBUNTU-18.04-CORE"
+    flavor: "4vCPUx8GB"
+    volume_size: 200
+    key_name: "{{ project_name }}"
+    type: "<TYPE>"

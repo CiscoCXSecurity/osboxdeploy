@@ -1,0 +1,8 @@
+- block:
+  - name: fix repos
+    replace:
+      path: "{{ item }}"
+      regexp: "^deb (.*)"
+      replace: "#deb \\1"
+    with_items:
+      - /etc/apt/sources.list.d/does_not_exist

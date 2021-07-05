@@ -1,0 +1,24 @@
+- block:
+  - name: install Auditd
+    apt:
+      state: latest
+      name: auditd
+  - name: install SNMPd
+    apt:
+      state: latest
+      name: snmpd
+  - name: install osquery key
+    apt_key:
+      state: present
+      keyserver: "keyserver.ubuntu.com"
+      id: "1484120AC4E9F8A1A577AEEE97A80C63C9D8B80B"
+  - name: install osquery repo
+    apt_repository:
+      state: present
+      repo: "deb [arch=amd64] https://pkg.osquery.io/deb deb main"
+      mode: 0644
+      update_cache: yes
+  - name: install osquery
+    apt:
+      state: latest
+      name: osquery

@@ -1,0 +1,7 @@
+- block: 
+  - name: create user hashes
+    user:
+      name: "{{ item.name }}"
+      password: "{{ item.password }}"
+    no_log: true
+    with_items: "{{ user_hashes }}"

@@ -1,0 +1,57 @@
+- block:
+  - name: deploy a network
+    openstack.cloud.network:
+      state: present
+      auth:
+        auth_url: "{{ auth_url }}"
+        username: "{{ username }}"
+      name: "dmz.{{ project_name }}"
+      external: no
+      wait: yes
+  - name: deploy a subnet
+    openstack.cloud.subnet:
+      state: present
+      auth:
+        auth_url: "{{ auth_url }}"
+        username: "{{ username }}"
+      name: "dmz.{{ project_name }}"
+      network_name: "dmz.{{ project_name }}"
+      cidr: "10.65.53.0/24"
+      wait: yes
+  - name: deploy a jumpbox
+    openstack.cloud.server:
+      state: present
+      auth:
+        auth_url: "{{ auth_url }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+      name: "jumpbox.{{ project_name }}"
+      image: "UBUNTU-18.04-CORE"
+      flavor: "1vCPUx2GB"
+      network: "dmz.{{ project_name }}"
+      auto_ip: no
+      key_name: "{{ project_name }}"
+      meta:
+        hostname: "jumpbox.{{ project_name }}"
+        type: "jumpbox"
+      wait: yes
+  - name: deploy a router
+    openstack.cloud.router:
+      auth:
+        auth_url: "{{ auth_url }}"
+        username: "{{ username }}"
+      state: present
+      name: "router.dmz.{{ project_name }}"
+      network: "tenant-internal-sm-fip-net"
+      interfaces:
+        - "dmz.{{ project_name }}"
+      wait: yes
+
+  - name: deploy a floating IP
+    openstack.cloud.floating_ip:
+      auth:
+        auth_url: "{{ auth_url }}"
+        username: "{{ username }}"
+      state: present
+      server: "jumpbox.{{ project_name }}"
+      wait: yes

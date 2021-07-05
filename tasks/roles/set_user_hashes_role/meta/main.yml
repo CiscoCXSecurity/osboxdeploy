@@ -1,0 +1,11 @@
+galaxy_info:
+  author: Tim Wadhwa-Brown
+  description: Ansible role to set user hashes
+  company: Cisco
+  license: None
+  min_ansible_version: 2.2
+  platforms:
+    - name: All
+      versions:
+        - all
+dependencies:

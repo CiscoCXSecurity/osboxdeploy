@@ -1,0 +1,32 @@
+- block:
+  - name: deploy a disk
+    openstack.cloud.volume:
+      auth:
+        auth_url: "{{ auth_url }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+      state: present
+      display_name: "{{ item.name }}.{{ project_name }}"
+      size: "{{ item.volume_size }}"
+      wait: yes
+    with_items: "{{ container_hosts }}"
+  - name: deploy a container host
+    openstack.cloud.server:
+      state: present
+      auth:
+        auth_url: "{{ auth_url }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+      name: "{{ item.name }}.{{ project_name }}"
+      image: "{{ item.image }}"
+      flavor: "{{ item.flavor }}"
+      network: "dmz.{{ project_name }}"
+      auto_ip: no
+      volumes:
+        - "{{ item.name }}.{{ project_name }}"
+      key_name: "{{ item.key_name }}"
+      meta:
+        hostname: "{{ item.name }}.{{ project_name }}"
+        type: "{{ item.type }}"
+      wait: yes
+    with_items: "{{ container_hosts }}"

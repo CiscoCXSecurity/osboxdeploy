@@ -1,0 +1,35 @@
+- block: 
+  - name: create user groups
+    group:
+      state: present
+      name: "{{ item }}"
+    with_items: "{{ user_groups }}"
+  - name: create users
+    user:
+      state: "{{ item.present | default('present') }}"
+      name: "{{ item.name }}"
+      group: "{{ item.group }}"
+      groups: "{{ item.groups }}"
+      comment: "{{ item.comment | default('') }}"
+      home: "{{ item.home | default('/home/' ~ item.name) }}"
+      create_home: yes
+      shell: "{{ item.shell | default('/bin/bash') }}"
+    with_items: "{{ users }}"
+  - name: create user keys
+    authorized_key:
+      state: "{{ item.present | default('present') }}"
+      user: "{{ item.name }}"
+      key: "{{ lookup('file', 'files/' ~ item.key) }}"
+    with_items: "{{ users }}"
+  - name: get user info
+    getent:
+      database: passwd
+  - name: display user info
+    debug:
+      var: getent_passwd
+  - name: get all groups
+    getent:
+      database: group
+  - name: display group info
+    debug:
+      var: getent_group

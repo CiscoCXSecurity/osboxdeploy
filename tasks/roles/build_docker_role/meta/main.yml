@@ -1,0 +1,12 @@
+galaxy_info:
+  author: Tim Wadhwab-Brown
+  description: Ansible role to install Docker
+  company: Cisco
+  license: None
+  min_ansible_version: 2.2
+  platforms:
+    - name: All
+      versions:
+        - all
+dependencies:
+    

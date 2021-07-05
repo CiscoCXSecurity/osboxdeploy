@@ -1,0 +1,30 @@
+- name: fix repos
+  hosts: <REGIONNAME>
+  tasks:
+    - name: fix repos
+      include_role:
+        name: fix_repos_role
+- name: patch
+  hosts: <REGIONNAME>
+  tasks:
+    - name: patch
+      include_role:
+        name: patch_role
+- name: deploy admin applications
+  hosts: <REGIONNAME>
+  tasks:
+    - name: install telemetry
+      include_role:
+        name: build_telemetry_role
+- name: deploy jumpbox applications
+  hosts: meta-type_jumpbox
+  tasks:
+    - name: install blah
+      include_role:
+        name: build_jumpbox_role
+- name: deploy TYPE applications
+  hosts: meta-type_<TYPE>
+  tasks:
+    - name: install Docker
+      include_role:
+        name: build_docker_role

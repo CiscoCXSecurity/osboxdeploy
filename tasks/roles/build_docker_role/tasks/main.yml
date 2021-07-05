@@ -1,0 +1,19 @@
+- block:
+  - name: install Docker key
+    apt_key:
+      state: present
+      keyserver: "keyserver.ubuntu.com"
+      id: "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"
+  - name: install Docker repo
+    apt_repository:
+      state: present
+      repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+      mode: 0644
+      update_cache: yes
+  - name: install Docker
+    apt:
+      state: latest
+      name:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io

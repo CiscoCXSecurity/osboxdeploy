@@ -1,0 +1,92 @@
+- block:
+  - name: install unattended upgrades
+    apt:
+      state: latest
+      name: unattended-upgrades
+  - name: enable periodic upgrades
+    copy:
+      src: "files/10periodic"
+      dest: "/etc/apt/apt.conf.d"
+      owner: "root"
+      group: "root"
+      mode: 0644
+  - name: enable unattended upgrades
+    copy:
+      src: "files/50unattended-upgrades"
+      dest: "/etc/apt/apt.conf.d"
+      owner: "root"
+      group: "root"
+      mode: 0644
+    notify:
+      - restart upgrades
+  #- name: disable SSH interface wildcard
+  #  lineinfile:
+  #    state: absent
+  #    dest: "/etc/ssh/sshd_config"
+  #    regexp: "^ListenAddress ::"
+  #- name: limit SSH interfaces
+  #  lineinfile:
+  #    state: present
+  #    dest: "/etc/ssh/sshd_config"
+  #    regexp: "^ListenAddress"
+  #    line: "ListenAddress {{ ipv4 }}"
+  #  notify: restart SSH
+  - name: disable SSH password access
+    lineinfile:
+      state: present
+      dest: "/etc/ssh/sshd_config"
+      regexp: "^PasswordAuthentication"
+      line: "PasswordAuthentication no"
+    notify: restart SSH
+  - name: create SSH banner
+    copy:
+      src: "files/issue.net"
+      dest: "/etc"
+      owner: "root"
+      group: "root"
+      mode: 0644
+  - name: enable SSH banner
+    lineinfile:
+      state: present
+      dest: "/etc/ssh/sshd_config"
+      regexp: "^Banner"
+      line: "Banner /etc/issue.net"
+    notify: restart SSH
+  - name: install UFW
+    apt:
+      state: latest
+      name: ufw
+  - name: enable UFW logging
+    ufw:
+      logging: on
+  #- name: UFW allow from trusted
+  #  ufw:
+  #    rule: allow
+  #    direction: in
+  #    src: "{{ item }}"
+  #  with_items:
+  #    - 80.82.247.58/32
+  #    - 81.145.209.198/32
+  #- name: UFW default deny
+  #  ufw:
+  #    state: enabled
+  #    policy: deny
+  #- name: force group membership for SSH access
+  #  lineinfile:
+  #    state: present
+  #    dest: "/etc/ssh/sshd_config"
+  #    regexp: "^AllowGroups"
+  #    line: "AllowGroups adm"
+  #  notify: restart SSH
+  #- name: disable root SSH access
+  #  lineinfile:
+  #    state: present
+  #    dest: "/etc/ssh/sshd_config"
+  #    regexp: "^PermitRootLogin"
+  #    line: "PermitRootLogin no"
+  #  notify: restart SSH
+  #- name: remove root key
+  #  authorized_key:
+  #    state: absent
+  #    user: "root"
+  #    key: "{{ lookup('file', 'files/' ~ project_name ~ '.pub') }}"

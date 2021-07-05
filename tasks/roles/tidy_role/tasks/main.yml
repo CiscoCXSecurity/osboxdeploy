@@ -1,0 +1,5 @@
+- block:
+  - name: tidy
+    apt:
+      autoclean: yes
+      autoremove: yes  

@@ -1,0 +1,27 @@
+- name: fix repos
+  hosts: <REGIONNAME>
+  tasks:
+    - name: fix repos
+      include_role:
+        name: fix_repos_role
+- name: patch
+  hosts: <REGIONNAME>
+  tasks:
+    - name: patch
+      include_role:
+        name: patch_role
+- name: harden
+  hosts: <REGIONNAME>
+  tasks:
+    - name: harden
+      include_role:
+        name: harden_role
+- name: users
+  hosts: <REGIONNAME>
+  tasks:
+    - name: create users
+      include_role:
+        name: create_users_role
+    - name: set user hashes
+      include_role:
+        name: set_user_hashes_role

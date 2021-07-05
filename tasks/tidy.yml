@@ -1,0 +1,18 @@
+- name: fix repos
+  hosts: <REGIONNAME>
+  tasks:
+    - name: fix repos
+      include_role:
+        name: fix_repos_role
+- name: patch
+  hosts: <REGIONNAME>
+  tasks:
+    - name: patch
+      include_role:
+        name: patch_role
+- name: tidy
+  hosts: <REGIONNAME>
+  tasks:
+    - name: tidy
+      include_role:
+        name: tidy_role

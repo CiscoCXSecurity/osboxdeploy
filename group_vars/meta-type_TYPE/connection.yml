@@ -1,0 +1,1 @@
+ansible_ssh_common_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o \"ProxyJump {{ hostvars['jumpbox.' + hostvars['localhost'].project_name].ansible_host }}\""

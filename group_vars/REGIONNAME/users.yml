@@ -1,0 +1,6 @@
+users:
+  - name: "<USERNAME>"
+    comment: "Joe Bloggs"
+    group: "adm"
+    groups: "sudo"
+    key: "<USERNAME>.pub"

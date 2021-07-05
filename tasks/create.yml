@@ -1,0 +1,9 @@
+- name: provision hosts
+  hosts: openstack
+  tasks:
+    - name: create jumpbox
+      include_role:
+        name: create_jumpbox_role
+    - name: create container hosts
+      include_role:
+        name: create_container_hosts_role

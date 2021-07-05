@@ -1,0 +1,4 @@
+# use vault to protect this file
+user_hashes:
+  - name: "<USERNAME>"
+    password: "<SHA 512 hash, see bin/generate-hash.py>"

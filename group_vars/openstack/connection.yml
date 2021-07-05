@@ -1,0 +1,4 @@
+auth_url: "{{ lookup('env', 'OS_AUTH_URL') }}"
+project_name: "{{ lookup('env', 'OS_PROJECT_NAME') }}"
+username: "{{ lookup('env', 'OS_USERNAME') }}"
+password: "{{ lookup('env', 'OS_PASSWORD') }}"
